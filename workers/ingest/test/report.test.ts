@@ -3,7 +3,7 @@ import { makeReport } from "@lumphammer/fvtt-telemetry-schema/testReports";
 import { env, exports } from "cloudflare:workers";
 import { describe, expect, test } from "vitest";
 
-import { maxBodyBytes } from "../src/index.ts";
+import { maxBodyBytes } from "../src/limits.ts";
 
 const url = "https://ingest.example.net/v1/report";
 

@@ -1,10 +1,8 @@
 import { parseReport } from "@lumphammer/fvtt-telemetry-schema";
 
+import { maxBodyBytes, reportPath } from "./limits.ts";
 import { runMaintenance, utcDay } from "./maintenance.ts";
 import { storeReport } from "./store.ts";
-
-export const reportPath = "/v1/report";
-export const maxBodyBytes = 64 * 1024;
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
