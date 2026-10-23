@@ -17,5 +17,17 @@
     "prettier": "^3.9.10",
     "typescript": "7.0.2"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "24.22.0",
+      "onFail": "download"
+    },
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.14.0",
+      "onFail": "download"
+    }
+  }
 }
