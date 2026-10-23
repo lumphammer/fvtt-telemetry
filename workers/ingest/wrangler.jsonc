@@ -1,0 +1,37 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "fvtt-telemetry-ingest",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  // Only reachable on its own domain: no *.workers.dev or preview URLs.
+  "workers_dev": false,
+  "preview_urls": false,
+  // TODO: the real domain (see the README)
+  "routes": [{ "pattern": "ingest.example.net", "custom_domain": true }],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "fvtt-telemetry",
+      // TODO: from `wrangler d1 create fvtt-telemetry`
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "../../migrations",
+    },
+  ],
+  "ratelimits": [
+    {
+      "name": "REPORT_LIMITER",
+      "namespace_id": "1001",
+      // per IP address: plenty for a few worlds, and keeps floods small
+      "simple": { "limit": 10, "period": 60 },
+    },
+  ],
+  "triggers": { "crons": ["17 3 * * *"] },
+  "vars": {
+    // the packages we accept reports for, comma-separated
+    "PACKAGE_IDS": "investigator",
+    "RAW_RETENTION_DAYS": "400",
+  },
+  // No request logs: they would record IP addresses.
+  "observability": { "enabled": false },
+  "logpush": false,
+}

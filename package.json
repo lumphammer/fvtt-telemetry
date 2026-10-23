@@ -1,0 +1,20 @@
+{
+  "name": "fvtt-telemetry",
+  "private": true,
+  "type": "module",
+  "description": "Opt-in usage stats for Foundry VTT packages, on Cloudflare Workers",
+  "scripts": {
+    "typecheck": "pnpm -r run typecheck",
+    "test": "pnpm -r run test",
+    "lint:check": "oxlint",
+    "format:check": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "build": "pnpm -r run build",
+    "check": "pnpm run typecheck && pnpm run test && pnpm run lint:check && pnpm run format:check && pnpm run build"
+  },
+  "devDependencies": {
+    "oxlint": "^1.89.0",
+    "prettier": "^3.9.10",
+    "typescript": "7.0.2"
+  }
+}

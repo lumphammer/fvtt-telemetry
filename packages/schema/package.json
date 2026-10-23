@@ -1,0 +1,21 @@
+{
+  "name": "@lumphammer/fvtt-telemetry-schema",
+  "version": "0.1.0",
+  "description": "The report format for fvtt-telemetry, and a client for sending reports from Foundry",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./client": "./src/client.ts",
+    "./testReports": "./src/testReports.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p .",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "valibot": "^1.5.0"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.12"
+  }
+}

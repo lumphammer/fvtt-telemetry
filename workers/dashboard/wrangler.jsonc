@@ -1,0 +1,35 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "fvtt-telemetry-dashboard",
+  "main": "src/worker/index.ts",
+  "compatibility_date": "2026-10-01",
+  // Only reachable on its own domain, behind Access: no *.workers.dev or
+  // preview URLs, which would get around it.
+  "workers_dev": false,
+  "preview_urls": false,
+  // TODO: the real domain, with an Access application on it (see the README)
+  "routes": [{ "pattern": "stats.example.net", "custom_domain": true }],
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    // the Worker checks Access before serving the app's files too
+    "run_worker_first": true,
+    "not_found_handling": "single-page-application",
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "fvtt-telemetry",
+      // TODO: the same ID as the ingest Worker's
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "../../migrations",
+    },
+  ],
+  "vars": {
+    // TODO: your Zero Trust team domain, and the Access application's AUD tag
+    "ACCESS_TEAM_DOMAIN": "example.cloudflareaccess.com",
+    "ACCESS_AUD": "",
+  },
+  "observability": { "enabled": false },
+  "logpush": false,
+}
