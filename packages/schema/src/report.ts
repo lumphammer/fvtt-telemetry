@@ -1,10 +1,12 @@
 import * as v from "valibot";
 
 /** Foundry package and module IDs. */
-const id = v.pipe(v.string(), v.regex(/^[A-Za-z0-9._-]{1,100}$/));
+export const idPattern = /^[A-Za-z0-9._-]{1,100}$/;
+const id = v.pipe(v.string(), v.regex(idPattern));
 
 /** Version strings, e.g. "10.130", "14.367", "1.2.0-beta.1". */
-const version = v.pipe(v.string(), v.regex(/^[0-9A-Za-z.+_-]{1,32}$/));
+export const versionPattern = /^[0-9A-Za-z.+_-]{1,32}$/;
+const version = v.pipe(v.string(), v.regex(versionPattern));
 
 /** Foundry language codes, e.g. "en", "pt-BR", "it_IT". */
 const language = v.pipe(
