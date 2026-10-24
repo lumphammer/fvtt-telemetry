@@ -8,7 +8,9 @@
   "workers_dev": false,
   "preview_urls": false,
   // TODO: the real domain, with an Access application on it (see the README)
-  "routes": [{ "pattern": "stats.example.net", "custom_domain": true }],
+  "routes": [
+    { "pattern": "dashboard.stats.lumphammer.net", "custom_domain": true },
+  ],
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
@@ -20,15 +22,14 @@
     {
       "binding": "DB",
       "database_name": "fvtt-telemetry",
-      // TODO: the same ID as the ingest Worker's
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "815bfd58-bf97-4f39-82de-12bca1628875",
       "migrations_dir": "../../migrations",
     },
   ],
   "vars": {
     // TODO: your Zero Trust team domain, and the Access application's AUD tag
-    "ACCESS_TEAM_DOMAIN": "example.cloudflareaccess.com",
-    "ACCESS_AUD": "",
+    "ACCESS_TEAM_DOMAIN": "lumphammer.cloudflareaccess.com",
+    "ACCESS_AUD": "ee5e7c92d837d2bdb37cdd4e16881bb3c5f357303f87eea47b30665c2e270044",
   },
   "observability": { "enabled": false },
   "logpush": false,
