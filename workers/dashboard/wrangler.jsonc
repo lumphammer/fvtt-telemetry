@@ -7,7 +7,6 @@
   // preview URLs, which would get around it.
   "workers_dev": false,
   "preview_urls": false,
-  // TODO: the real domain, with an Access application on it (see the README)
   "routes": [
     { "pattern": "dashboard.stats.lumphammer.net", "custom_domain": true },
   ],
@@ -27,7 +26,7 @@
     },
   ],
   "vars": {
-    // TODO: your Zero Trust team domain, and the Access application's AUD tag
+    // the Zero Trust team domain, and the Access application's AUD tag
     "ACCESS_TEAM_DOMAIN": "lumphammer.cloudflareaccess.com",
     "ACCESS_AUD": "ee5e7c92d837d2bdb37cdd4e16881bb3c5f357303f87eea47b30665c2e270044",
   },

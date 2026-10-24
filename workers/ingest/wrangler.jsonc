@@ -6,7 +6,6 @@
   // Only reachable on its own domain: no *.workers.dev or preview URLs.
   "workers_dev": false,
   "preview_urls": false,
-  // TODO: the real domain (see the README)
   "routes": [
     {
       "pattern": "ingest.stats.lumphammer.net",
