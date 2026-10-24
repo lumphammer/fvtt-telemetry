@@ -1,9 +1,10 @@
 import { createInstallId } from "@lumphammer/fvtt-telemetry-schema";
 import { makeReport } from "@lumphammer/fvtt-telemetry-schema/testReports";
 import { env, exports } from "cloudflare:workers";
-import { describe, expect, test } from "vitest";
+import { beforeAll, describe, expect, test } from "vitest";
 
 import { maxBodyBytes } from "../src/limits.ts";
+import { setPublicModules } from "../src/publicModules.ts";
 
 const url = "https://ingest.example.net/v1/report";
 
@@ -51,6 +52,19 @@ function modulesFor(installId: string) {
     .all()
     .then((r) => r.results);
 }
+
+const lotsOfModules = Array.from({ length: 150 }, (_, i) => ({
+  id: `module-${String(i).padStart(3, "0")}`,
+  version: `1.${i}`,
+}));
+
+beforeAll(async () => {
+  await setPublicModules(
+    env.DB,
+    ["dice-so-nice", "lib-wrapper", ...lotsOfModules.map((m) => m.id)],
+    new Date(),
+  );
+});
 
 describe("POST /v1/report", () => {
   test("stores a report", async () => {
@@ -104,16 +118,30 @@ describe("POST /v1/report", () => {
 
   test("stores lots of modules", async () => {
     const installId = createInstallId();
-    const modules = Array.from({ length: 150 }, (_, i) => ({
-      id: `module-${String(i).padStart(3, "0")}`,
-      version: `1.${i}`,
-    }));
+    const modules = lotsOfModules;
 
     expect((await post(makeReport({ installId, modules }))).status).toBe(204);
 
     expect(await modulesFor(installId)).toEqual(
       modules.map((m) => ({ module_id: m.id, module_version: m.version })),
     );
+  });
+
+  test("only keeps modules in Foundry's public index", async () => {
+    const installId = createInstallId();
+    const modules = [
+      { id: "bobs-ravenloft-tweaks", version: "0.1" },
+      { id: "lib-wrapper", version: "1.13.0" },
+    ];
+
+    expect((await post(makeReport({ installId, modules }))).status).toBe(204);
+
+    expect(await reportsFor(installId)).toEqual([
+      expect.objectContaining({ shares_modules: 1 }),
+    ]);
+    expect(await modulesFor(installId)).toEqual([
+      { module_id: "lib-wrapper", module_version: "1.13.0" },
+    ]);
   });
 
   test.each(["XX", "T1", "gb"])(

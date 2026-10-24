@@ -26,8 +26,6 @@ private.
 
 ## Setting it up on Cloudflare
 
-Nothing here has been deployed yet. To do it:
-
 1. `wrangler d1 create fvtt-telemetry`, and put the database ID in both
    `wrangler.jsonc` files.
 2. `wrangler d1 migrations apply fvtt-telemetry --remote` (from either Worker's
@@ -42,6 +40,14 @@ Nothing here has been deployed yet. To do it:
    `pnpm --filter fvtt-telemetry-dashboard deploy`.
 6. Check the dashboard says "Forbidden" without logging in, and that
    `curl -X POST https://ingest.<domain>/v1/report -d '{}'` gets a 400.
+
+After a new migration, run step 2 again before deploying.
+
+The public module list is refreshed by the ingest Worker's `47 2 * * *` cron
+trigger, so after the first deploy no modules are kept until that has run.
+Parsing Foundry's package index takes about 30 ms of CPU, which is over the
+Workers Free plan's 10 ms per invocation. To check it ran:
+`wrangler d1 execute fvtt-telemetry --remote --command "SELECT * FROM public_modules_refreshed"`.
 
 `workers_dev` and `preview_urls` are off in both Workers, so they're only
 reachable on those hostnames. Observability and Logpush are off too, so no

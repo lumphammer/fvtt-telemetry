@@ -24,10 +24,12 @@ sent, and publishing what's collected puts us well ahead of that.
 - **No personal data.** A random install ID, created at opt-in, not Foundry's
   world ID or title. No IP addresses are stored. Country (from Cloudflare)
   is the only thing derived from the IP, and the dialog says so.
-- **The module list is a separate opt-in.** It's the most useful data and the
-  most sensitive.
-- **Opting out deletes the install ID.** We keep raw rows for a fixed time
-  (13 months), then only weekly totals.
+- **Only public modules.** The module list is part of the report, but the
+  server only keeps modules listed in Foundry's public package index, so the
+  names of private or unreleased modules are never stored.
+- **Opting out stops the reports.** The install ID is kept, so a world which
+  opts back in carries on where it left off; a "reset" button makes a new
+  one. We keep raw rows for a fixed time (13 months), then only weekly totals.
 - **Open.** The code and this document are public.
 
 ## Shape
@@ -87,8 +89,11 @@ three months and samples at volume: version adoption over years is the point.
 - `report_settings`: key/value pairs the package chooses to report (for
   INVESTIGATOR: the preset, and a few rules switches). At most 32, short
   strings, numbers or booleans.
-- `report_modules`: active module IDs and versions, only from installs that
-  opted in to sharing them.
+- `report_modules`: active module IDs and versions, only for modules in
+  `public_modules`.
+- `public_modules`: the module IDs in Foundry's public package index
+  (`index-latest.json`), refreshed daily by its own cron trigger. Until it's
+  first filled, no modules are kept.
 - `weekly_counts`: for each package, week and dimension (package version,
   Foundry version, language, country, each setting, each module), how many
   installs reported each value. An install counts once per week, with what it
@@ -113,7 +118,7 @@ weekly counts.
 }
 ```
 
-`modules` is left out unless the GM agreed to share it. The schema lives in
+`modules` is optional, so a package can leave it out. The schema lives in
 `packages/schema` (valibot), with a small client helper for building and
 sending reports, so the packages and the Worker can't drift apart.
 
@@ -121,10 +126,10 @@ sending reports, so the packages and the Worker can't drift apart.
 
 - A world setting, off by default, and a one-off dialog for the GM after an
   update: "Share anonymous usage stats", "No thanks", "Ask me later", with a
-  separate box for the module list and a "Show exactly what would be sent"
-  button.
-- The install ID is created when the GM opts in, and deleted when they opt
-  out. A "reset" button in settings makes a new one.
+  "Show exactly what would be sent" button.
+- The install ID is created when the GM first opts in, and kept if they opt
+  out, so opting back in carries on with it. A "reset" button in settings
+  makes a new one.
 - Sent once per world per day, from the GM's client after `ready`, with a
   short timeout. Failures are ignored, and nothing is logged unless debugging
   is on.
@@ -141,7 +146,6 @@ sending reports, so the packages and the Worker can't drift apart.
 
 ## Not yet decided
 
-- The domain names.
 - Whether to also publish a public page of aggregate numbers.
 
 ## Cost

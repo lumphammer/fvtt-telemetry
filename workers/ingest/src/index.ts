@@ -1,7 +1,8 @@
 import { parseReport } from "@lumphammer/fvtt-telemetry-schema";
 
-import { maxBodyBytes, reportPath } from "./limits.ts";
+import { maxBodyBytes, refreshCron, reportPath } from "./limits.ts";
 import { runMaintenance, utcDay } from "./maintenance.ts";
+import { keepPublicModules, refreshPublicModules } from "./publicModules.ts";
 import { storeReport } from "./store.ts";
 
 const corsHeaders = {
@@ -69,8 +70,16 @@ async function handleReport(request: Request, env: Env) {
     return respond(400, { error: "Unknown package" });
   }
 
+  // only modules in Foundry's public index, so private ones' names aren't kept
+  const report = result.report.modules
+    ? {
+        ...result.report,
+        modules: await keepPublicModules(env.DB, result.report.modules),
+      }
+    : result.report;
+
   const now = new Date();
-  await storeReport(env.DB, result.report, {
+  await storeReport(env.DB, report, {
     day: utcDay(now),
     country: getCountry(request),
     receivedAt: now.toISOString(),
@@ -93,10 +102,11 @@ export default {
   },
 
   async scheduled(controller, env) {
-    await runMaintenance(
-      env.DB,
-      new Date(controller.scheduledTime),
-      Number(env.RAW_RETENTION_DAYS),
-    );
+    const now = new Date(controller.scheduledTime);
+    if (controller.cron === refreshCron) {
+      await refreshPublicModules(env.DB, now);
+      return;
+    }
+    await runMaintenance(env.DB, now, Number(env.RAW_RETENTION_DAYS));
   },
 } satisfies ExportedHandler<Env>;

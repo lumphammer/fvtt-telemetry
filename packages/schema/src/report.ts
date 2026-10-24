@@ -48,7 +48,10 @@ export const reportSchemaV1 = v.strictObject({
       ),
     ),
   ),
-  /** Active modules. Only sent if the GM agreed to share them. */
+  /**
+   * Active modules. Optional, so a package can leave them out. The server only
+   * keeps modules in Foundry's public package index.
+   */
   modules: v.optional(
     v.pipe(
       v.array(v.strictObject({ id, version })),

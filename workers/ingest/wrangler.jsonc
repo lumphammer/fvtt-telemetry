@@ -17,6 +17,7 @@
       "binding": "DB",
       "database_name": "fvtt-telemetry",
       "database_id": "815bfd58-bf97-4f39-82de-12bca1628875",
+      "migrations_dir": "../../migrations",
     },
   ],
   "ratelimits": [
@@ -31,7 +32,8 @@
     },
   ],
   "triggers": {
-    "crons": ["17 3 * * *"],
+    // maintenance; and refreshing the public module list (`refreshCron`)
+    "crons": ["17 3 * * *", "47 2 * * *"],
   },
   "vars": {
     // the packages we accept reports for, comma-separated
