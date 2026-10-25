@@ -41,7 +41,7 @@ CREATE TABLE report_modules (
 -- last reported that week. Kept after the raw rows are deleted.
 --
 -- Dimensions: "installs" (value ""), "packageVersion", "foundryVersion",
--- "language", "country", "userCount", "sharesModules", "setting:<key>", and
+-- "language", "country", "userCount", "setting:<key>", and
 -- "module" (value: module ID) and "moduleVersion:<module ID>".
 CREATE TABLE weekly_counts (
   package_id TEXT NOT NULL,

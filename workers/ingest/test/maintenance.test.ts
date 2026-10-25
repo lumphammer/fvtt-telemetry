@@ -94,21 +94,6 @@ describe("rollUpWeek", () => {
     ).toEqual({ "5.2.1": 2 });
   });
 
-  test("only counts modules from installs which share them", async () => {
-    await store("2026-10-19", { installId: a });
-    await store("2026-10-19", { installId: b, modules: undefined });
-
-    await rollUpWeek(env.DB, "2026-10-19");
-
-    expect(await weeklyCounts("2026-10-19", "sharesModules")).toEqual({
-      no: 1,
-      yes: 1,
-    });
-    expect(await weeklyCounts("2026-10-19", "module")).toEqual({
-      "dice-so-nice": 1,
-    });
-  });
-
   test("uses the settings and modules from the last report", async () => {
     await store("2026-10-19", { installId: a });
     await store("2026-10-21", {

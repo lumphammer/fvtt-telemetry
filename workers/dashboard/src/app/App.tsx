@@ -32,7 +32,6 @@ const fixedDimensions = [
   "language",
   "country",
   "userCount",
-  "sharesModules",
   "module",
 ] as const;
 
@@ -173,10 +172,6 @@ function Dashboard({ data, range }: { data: PackageData; range: number }) {
   const newest = versions.series[0];
   const newestShare =
     newest === undefined ? 0 : (versions.weeks.at(-1)?.values[newest] ?? 0);
-  const sharing =
-    breakdown(data["sharesModules"] ?? [], latest).find(
-      (r) => r.value === "yes",
-    )?.installs ?? 0;
 
   const settings = Object.keys(data)
     .filter((d) => d.startsWith("setting:"))
@@ -206,10 +201,6 @@ function Dashboard({ data, range }: { data: PackageData; range: number }) {
               : "On the newest version"
           }
           value={formatPercent(newestShare, total)}
-        />
-        <StatTile
-          label="Sharing their module list"
-          value={formatPercent(sharing, total)}
         />
       </section>
       <section className="grid">
@@ -277,9 +268,9 @@ function Dashboard({ data, range }: { data: PackageData; range: number }) {
         />
         <BreakdownCard
           title="Modules"
-          subtitle={`${weekNote} · share of the ${formatCount(sharing)} installs sharing their module list`}
+          subtitle={weekNote}
           rows={breakdown(data["module"] ?? [], latest)}
-          total={sharing}
+          total={total}
           label="Module"
         />
       </section>

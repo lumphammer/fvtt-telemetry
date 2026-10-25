@@ -114,9 +114,6 @@ for (let i = 0; i < weeks; i++) {
   }))
     add(week, "setting:preset", v, n);
 
-  const sharing = Math.round(total * 0.55);
-  add(week, "sharesModules", "yes", sharing);
-  add(week, "sharesModules", "no", total - sharing);
   const moduleShares = {
     "lib-wrapper": 0.71,
     "dice-so-nice": 0.64,
@@ -135,12 +132,7 @@ for (let i = 0; i < weeks; i++) {
     "token-mold": 0.07,
   };
   for (const [m, share] of Object.entries(moduleShares)) {
-    add(
-      week,
-      "module",
-      m,
-      Math.round(sharing * share * (0.9 + random() * 0.2)),
-    );
+    add(week, "module", m, Math.round(total * share * (0.9 + random() * 0.2)));
   }
 }
 

@@ -65,9 +65,6 @@ const dimensionQueries = [
      FROM latest GROUP BY package_id, COALESCE(country, 'unknown')`,
   `SELECT package_id, ?1, 'userCount', ${userCountBucket}, COUNT(*)
      FROM latest GROUP BY package_id, ${userCountBucket}`,
-  `SELECT package_id, ?1, 'sharesModules',
-       CASE shares_modules WHEN 1 THEN 'yes' ELSE 'no' END, COUNT(*)
-     FROM latest GROUP BY package_id, shares_modules`,
   `SELECT l.package_id, ?1, 'setting:' || t.key, t.value, COUNT(*)
      FROM latest l ${joinOn("report_settings")}
      GROUP BY l.package_id, t.key, t.value`,
