@@ -87,8 +87,8 @@ three months and samples at volume: version adoption over years is the point.
 - `reports`: package, install ID, day (UTC), package version, Foundry
   version, language, user count, country.
 - `report_settings`: key/value pairs the package chooses to report (for
-  INVESTIGATOR: the preset, and a few rules switches). At most 32, short
-  strings, numbers or booleans.
+  INVESTIGATOR: the preset and theme, its rules switches, and which lists
+  differ from the preset). At most 64, short strings, numbers or booleans.
 - `report_modules`: active module IDs and versions, only for modules in
   `public_modules`.
 - `public_modules`: the module IDs in Foundry's public package index

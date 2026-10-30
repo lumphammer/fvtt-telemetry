@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 
-import { parseReport } from "./report.ts";
+import { maxSettings, parseReport } from "./report.ts";
 import { makeReport } from "./testReports.ts";
 
 describe("parseReport", () => {
@@ -43,7 +43,7 @@ describe("parseReport", () => {
       "too many settings",
       {
         settings: Object.fromEntries(
-          Array.from({ length: 33 }, (_, i) => [`s${i}`, i]),
+          Array.from({ length: maxSettings + 1 }, (_, i) => [`s${i}`, i]),
         ),
       },
     ],

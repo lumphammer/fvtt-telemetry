@@ -24,7 +24,7 @@ const settingValue = v.union([
   v.boolean(),
 ]);
 
-export const maxSettings = 32;
+export const maxSettings = 64;
 export const maxModules = 500;
 
 /**
