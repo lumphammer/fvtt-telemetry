@@ -11,18 +11,18 @@
     "seed:local": "mkdir -p .wrangler && node scripts/seedLocal.mjs > .wrangler/seed.sql && wrangler d1 migrations apply fvtt-telemetry --local && wrangler d1 execute fvtt-telemetry --local --file .wrangler/seed.sql"
   },
   "dependencies": {
-    "jose": "^6.2.13",
+    "jose": "^6.2.14",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
-    "@cloudflare/vitest-plugin": "^1.4.7",
+    "@cloudflare/vitest-plugin": "^1.4.11",
     "@lumphammer/fvtt-telemetry-schema": "workspace:^",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
     "vite": "^8.3.5",
-    "vitest": "^5.0.0",
-    "wrangler": "^4.152.0"
+    "vitest": "^5.0.5",
+    "wrangler": "^4.156.0"
   }
 }
