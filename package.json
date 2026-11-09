@@ -13,7 +13,7 @@
     "check": "pnpm run typecheck && pnpm run test && pnpm run lint:check && pnpm run format:check && pnpm run build"
   },
   "devDependencies": {
-    "oxlint": "^1.90.0",
+    "oxlint": "^1.92.0",
     "prettier": "^3.9.10",
     "typescript": "7.0.2"
   },
@@ -26,7 +26,7 @@
     },
     "packageManager": {
       "name": "pnpm",
-      "version": "12.16.1",
+      "version": "12.18.0",
       "onFail": "download"
     }
   }
