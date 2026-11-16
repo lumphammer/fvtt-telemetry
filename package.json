@@ -13,20 +13,20 @@
     "check": "pnpm run typecheck && pnpm run test && pnpm run lint:check && pnpm run format:check && pnpm run build"
   },
   "devDependencies": {
-    "oxlint": "^1.92.0",
-    "prettier": "^3.9.10",
+    "oxlint": "^1.93.0",
+    "prettier": "^3.10.1",
     "typescript": "7.0.2"
   },
   "license": "MIT",
   "devEngines": {
     "runtime": {
       "name": "node",
-      "version": "26.13.0",
+      "version": "26.13.1",
       "onFail": "download"
     },
     "packageManager": {
       "name": "pnpm",
-      "version": "12.18.0",
+      "version": "12.21.0",
       "onFail": "download"
     }
   }
